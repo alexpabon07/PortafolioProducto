@@ -8,18 +8,28 @@ export class InfoPaginaService {
 
   info: InfoPagina = {};
   cargada = false;
+  equipo: any[] = [];
 
   constructor( private http: HttpClient ) {
-    console.log('Servicio de información pagina listo');
+    this.cargarInfo();
+    this.cargarEquipo();
+  }
 
-    // Leer archivo JSON
+  private cargarInfo() {
     this.http.get('assets/data/data-pagina.json')
       .subscribe( (resp: InfoPagina) => {
         this.cargada = true;
         this.info = resp;
-        console.log(resp);
         // console.log(resp['email']);
-      });
+    });
+  }
+
+  private cargarEquipo() {
+    this.http.get('https://portafolioproductos-56567.firebaseio.com/equipo.json')
+      .subscribe( (resp: any[]) => {
+        this.equipo = resp;
+        console.log(resp);
+    });
   }
 
 }
